@@ -51,13 +51,14 @@
 </h2>
 
 ## 테스트 준비 및 방법
+
 - 원격 저장소의 주소를 복사한 다음 로컬 환경에 복제합니다.
 
 ```bash
-git clone https://github.com/ghkstod/streamlit_minimi.git 
+git clone <https://github.com/ms2063/mediview.git>
 ```
 
-- 폴더 최상위 경로에서 가상환경을 설치합니다.
+- https://github.com/ms2063/mediview.git 폴더 yakkiri 경로에서 가상환경을 설치합니다.
 
 ```bash
 pip install virtualenv #기존에 설치한 가상환경이 있다면 생략 가능
@@ -65,24 +66,52 @@ virtualenv venv
 ```
 
 - 가상환경에 접속합니다.
+
 ```bash
+# mediview/yakkiri/
+# Windows OS
 source venv/Scripts/activate
+
+# Mac OS
+source venv/bin/activate
 ```
 
 - 라이브러리를 설치합니다.
+
 ```bash
+# mediview/yakkiri/
 pip install -r requirements.txt
 ```
 
-- 일반적인 파이썬 `.py` 파일을 실행할 경우
+- `config/settings.py` 파일을 열어 본인의 로컬 서버와 연결합니다.
+
 ```bash
-python a.py
+# mediview/yakkiri/config/settings.py
+
+# 변경 전
+ALLOWED_HOSTS = [os.getenv('DB_HOST')]
+
+# 로컬 서버로 변경 후
+ALLOWED_HOSTS = []
 ```
 
-- Streamlit 파일 `.py` 파일을 실행할 경우
+- Django 마이그레이션
+
 ```bash
-streamlit run app.py
+# mediview/yakkiri/
+python manage.py makemigrations
+python manage.py migrate
 ```
+
+- Django 서버 실행
+
+```bash
+# mediview/yakkiri
+python manage.py runserver
+```
+
+- 웹 브라우저에 `127.0.0.1:8000/` 실행합니다.
+- 정상적으로 서버가 실행된 경우 다음과 같은 화면이 보입니다.
 
 # 데모페이지
 - Streamlit에서 구현한 Demo는 다음과 같습니다.
@@ -122,8 +151,5 @@ streamlit run app.py
 <samp>📜License📜</samp>
 </h1>
 
-<samp>• [MIT Licence](LICENSE).</samp>
+• [MIT Licence](LICENSE)
 
-
-## License
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
