@@ -79,16 +79,39 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-- `config/settings.py` 파일을 열어 본인의 로컬 서버와 연결합니다.
+- MYSQL 사용시, `mediview/.env` 파일을 생성하여 로컬 서버와 데이터베이스를 설정합니다.
 
 ```bash
-# mediview/yakkiri/config/settings.py
+# mediview/.env
+# .env
+DB_DATABASE = "your_mysql_schemaname"
+DB_USER = "your_mysql_username"
+DB_PASSWORD = "your_mysql_password"
+DB_HOST = "127.0.0.1"
+```
 
-# 변경 전
-ALLOWED_HOSTS = [os.getenv('DB_HOST')]
+- SQLite 사용시, `mediview/config/settings.py`의 DATABASES를 수정합니다.
 
-# 로컬 서버로 변경 후
-ALLOWED_HOSTS = []
+```bash
+# mediview/config/settings.py
+#기존 코드
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.environ.get('DB_DATABASE'),
+        "USER":os.environ.get('DB_USER'),
+        "PASSWORD":os.environ.get('DB_PASSWORD'),
+        "HOST":os.environ.get('DB_HOST'),
+        "PORT":"3306",
+    }
+}
+#변경 코드
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 ```
 
 - Django 마이그레이션
@@ -97,6 +120,14 @@ ALLOWED_HOSTS = []
 # mediview/yakkiri/
 python manage.py makemigrations
 python manage.py migrate
+```
+
+- CSV 파일을 보유할 경우, CSV파일을 데이터베이스에 넣는 방법
+
+```bash
+#'csv' 폴더를 mediview/csv/ 에 위치
+# mediview
+python manage.py import_products
 ```
 
 - Django 서버 실행
@@ -116,6 +147,19 @@ python manage.py runserver
   + https://_______.streamlit.app/
 
 <h1 align="left">
+  활용 데이터
+</h1>
+
+• 의약품 DUR 데이터
+<p>건강보험심사평가원 제공<br>
+활용 정보 : 노인주의, 임부 금기, 병용 금기 등<br>
+복용 상담 계획서 작성 및 약품 체크에 활용</p>
+<p>• e약은요 데이터
+식품의약안전처 제공
+활용 정보 : 효능, 주의 사항, 상호 작용, 부작용 등
+복용 상담 계획서 작성 및 약물 검색창에 활용
+
+<h1 align="left">
   주요 기능
 </h1>
 • 주요 기능은 다음과 같습니다.
@@ -125,7 +169,7 @@ python manage.py runserver
 - 약물 검색창
 
 - 복약상담계획서
-약사가 환자의 건강 정보 및 현재 복용 중인 약물을 입력하면, DUR과 e약은요 정보를 기반으로 복약상담 이전에 필요한 상담 계획서를 제공합니다. ‘약끼리’가 제공하는 복약상담 계획서는 환자가 복용 중인 약물에 대한 기본 정보를 제공할 뿐만 아니라 약사의 검토가 필요한 약물에 대한 정보를 상세히 기술합니다. 이는 약사가 약물에 대한 정보를 일일히 찾아보지 않아도 적절하게 복약 상담 계획을 수립할 수 있도록 돕습니다.
++ 약사가 환자의 건강 정보 및 현재 복용 중인 약물을 입력하면, DUR과 e약은요 정보를 기반으로 복약상담 이전에 필요한 상담 계획서를 제공합니다. ‘약끼리’가 제공하는 복약상담 계획서는 환자가 복용 중인 약물에 대한 기본 정보를 제공할 뿐만 아니라 약사의 검토가 필요한 약물에 대한 정보를 상세히 기술합니다. 이는 약사가 약물에 대한 정보를 일일히 찾아보지 않아도 적절하게 복약 상담 계획을 수립할 수 있도록 돕습니다.
 - 문의사항
 - FAQ
 
@@ -150,7 +194,7 @@ python manage.py runserver
 # 배포
 
 <h1 align="left">
-<samp>License</samp>
+License
 </h1>
 
 • [MIT Licence](LICENSE)
