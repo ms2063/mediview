@@ -17,19 +17,19 @@
   팀원 소개 및 역할
 </h1>
 <p>
-• <a target="_blank" href="https://github.com/ghkstod">나한울 팀장</a>
+• <a target="_blank" href="https://github.com/ghkstod">나한울 팀장</a> - 웹 개발
 <br>
-• <a target="_blank" href="https://github.com/suhyeon0325">김수현 팀원</a>
+• <a target="_blank" href="https://github.com/suhyeon0325">김수현 팀원</a> - 기획 및 데이터 분석
 <br>
-• <a target="_blank" href="https://github.com/Kongalmengi">송민 팀원</a>
+• <a target="_blank" href="https://github.com/Kongalmengi">송민 팀원</a> - 웹 개발
 <br>
-• <a target="_blank" href="https://github.com/Kongalmengi">송준호 팀원</a>
+• <a target="_blank" href="https://github.com/Kongalmengi">송준호 팀원</a> - 데이터 분석
 <br>
-• <a target="_blank" href="">양인선 팀원</a>
+• <a target="_blank" href="">양인선 팀원</a> - 데이터 분석
 <br>
-• <a target="_blank" href="https://github.com/Ju0s">정주영 팀원</a>
+• <a target="_blank" href="https://github.com/Ju0s">정주영 팀원</a> - 기획 및 데이터 분석
 <br>
-• <a target="_blank" href="https://github.com/roklp">한대희 팀원</a>
+• <a target="_blank" href="https://github.com/roklp">한대희 팀원</a> - 데이터 분석
 </p>
 
 <h1 align="left">
@@ -161,7 +161,7 @@ python manage.py runserver
 <h1 align="left">
   주요 기능
 </h1>
-• 주요 기능은 다음과 같습니다.
+주요 기능은 다음과 같습니다.<br>
 
 - 약끼리 체크
 <p>
