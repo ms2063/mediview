@@ -46,10 +46,6 @@
 </h2>
   • <a target="_blank" href="yakkiri/requirements.txt">requirements.txt</a> 파일 참조
 
-<h2 align="left">
-  📖주요 라이브러리📖
-</h2>
-
 ## 테스트 준비 및 방법
 
 - 원격 저장소의 주소를 복사한 다음 로컬 환경에 복제합니다.
