@@ -1,29 +1,54 @@
-# mediview
+<h1 align="center">
+        <samp> 💊약끼리💊
+        </samp>
+</h1>
 
-# 프로젝트의 목적
-한국은 고령화가 빠르게 진행되고 있으며, 이에 따라 다제약물 복용자의 수가 증가하고 있습니다. 다제약물 복용은 여러 약물을 동시에 복용하는 것을 의미하며, 이는 약물 간 상호작용 및 부작용의 위험을 높여 건강 문제와 재입원율을 증가시킵니다. 특히, 10개 이상의 약물을 60일 이상 복용하는 초고위험 다제약물 복용자가 급증하고 있어 체계적인 관리가 필요합니다. 국민건강보험공단에서 다제약물 관리사업을 시행하고 있지만, 약사 인력 부족으로 인해 효율적인 관리가 어려운 상황입니다.
+</h1>
+<h1 align="left">
+📌프로젝트의 목적📌
+</h1>
+ <p>
+     한국은 고령화가 빠르게 진행되고 있으며, 이에 따라 다제약물 복용자의 수가 증가하고 있습니다. 다제약물 복용은 여러 약물을 동시에 복용하는 것을 의미하며, 이는 약물 간 상호작용 및 부작용의 위험을 높여 건강 문제와 재입원율을 증가시킵니다. 특히, 10개 이상의 약물을 60일 이상 복용하는 초고위험 다제약물 복용자가 급증하고 있어 체계적인 관리가 필요합니다. 국민건강보험공단에서 다제약물 관리사업을 시행하고 있지만, 약사 인력 부족으로 인해 효율적인 관리가 어려운 상황입니다.<br>
 
 저희는 이러한 어려움을 해결하고자 ‘약끼리’ 서비스를 개발하고자 합니다. ‘약끼리’는 약사들이 다제약물 관리 서비스에서 복약상담 계획서를 쉽게 작성할 수 있도록 지원하는 플랫폼입니다. 이를 통해 복약상담의 절차를 간소화하고 인적 자원을 효율적으로 활용할 수 있도록 돕습니다. 또한, 환자와의 복약상담 시 필요한 체크리스트와 교육자료 제공, 복약상담 결과지 작성 기능을 지원하여 약물 관리의 효율성을 높이고 환자들의 건강 증진에 기여하고자 합니다.
+     </p>
+     
+<h1 align="left">
+  🧑🏻팀원 소개 및 역할👩🏻
+</h1>
+<p>
+• <a target="_blank" href="https://github.com/ghkstod">나한울 팀장</a>
+<br>
+• <a target="_blank" href="https://github.com/suhyeon0325">김수현 팀원</a>
+<br>
+• <a target="_blank" href="https://github.com/Kongalmengi">송민 팀원</a>
+<br>
+• <a target="_blank" href="https://github.com/Kongalmengi">송준호 팀원</a>
+<br>
+• <a target="_blank" href="">양인선 팀원</a>
+<br>
+• <a target="_blank" href="https://github.com/Ju0s">정주영 팀원</a>
+<br>
+• <a target="_blank" href="https://github.com/roklp">한대희 팀원</a>
+</p>
 
+<h1 align="left">
+  🔗주요 개발환경🔗
+</h1>
+  • 프로그래밍 언어 : Python
+  <br>
+  • 웹 프레임워크 : Django
+  <br>
+  • IDE : Visual Studio, Jupyter lab
 
-## 팀원 소개 및 역할
-- 나한울 팀장 : 
-- 김수현 팀원 :
-- 송민 팀원 : 
-- 송준호 팀원 : 
-- 양인선 팀원 : 
-- 정주영 팀원 : 
-- 한대희 팀원 : 
+<h2 align="left">
+  📖주요 라이브러리📖
+</h2>
+  • <a target="_blank" href="yakkiri/requirements.txt">requirements.txt</a> 파일 참조
 
----
-역할
-
-
-# 본 프로젝트에서 사용한 주요 개발환경 요약
-
-
-## 주요 라이브러리 버전
-  + [requirements.txt](requirements.txt) 파일 참조
+<h2 align="left">
+  📖주요 라이브러리📖
+</h2>
 
 ## 테스트 준비 및 방법
 - 원격 저장소의 주소를 복사한 다음 로컬 환경에 복제합니다.
@@ -63,18 +88,41 @@ streamlit run app.py
 - Streamlit에서 구현한 Demo는 다음과 같습니다.
   + https://_______.streamlit.app/
 
- ## 주요 기능
+<h1 align="left">
+  💡주요 기능💡
+</h1>
+• 주요 기능은 다음과 같습니다.
+
+
+
+<h1 align="left">
 
 
 ## 코드 에러 문의 
 - 메뉴 `Issues`-`New Issues`-`메모 남기기`-`Submit new issue`
 
-
-# 발표자료 PDF 
+<h1 align="left">
+  ✨발표자료 PDF ✨
+</h1>
+<p>
+• 발표 자료는 해당 링크를 통해 확인 가능합니다:
+</p>
+<p>
+<samp>
+<a target="_blank" href="Convenience_Insights_KR.pdf">한국어 PDF</a>
+<br>
+<a target="_blank" href="Convenience_Insights_EN.pdf">영어 PDF</a>
+</samp>
+</p>
 
 
 # 배포
 
+<h1 align="left">
+<samp>📜License📜</samp>
+</h1>
+
+<samp>• [MIT Licence](LICENSE).</samp>
 
 
 ## License
