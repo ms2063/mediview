@@ -1,0 +1,23 @@
+{% extends 'mainbase.html' %}
+{% load static %}
+
+{% block content %}
+<div class="flex h-screen w-full items-center justify-center bg-[#f0f4ff] dark:bg-[#0f172a]">
+    <form method="POST" action="{% url 'post_add' %}" class="bg-white shadow-lg rounded-lg p-6 w-full max-w-xl">
+        {% csrf_token %}
+        <!-- 폼 필드들 직접 렌더링 -->
+        <div class="mb-4">
+            <label for="title" class="block text-sm font-medium text-gray-700">제목</label>
+            <input type="text" name="title" id="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+        </div>
+        <div class="mb-4">
+            <label for="content" class="block text-sm font-medium text-gray-700">내용</label>
+            <textarea name="content" id="content" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required></textarea>
+        </div>
+        <button type="submit" class="inline-flex items-center justify-center w-full text-white bg-[#4f46e5] px-4 py-2 rounded-md hover:bg-[#3730a3] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4f46e5]">
+            게시
+        </button>
+    </form>
+</div>
+</div>
+{% endblock %}

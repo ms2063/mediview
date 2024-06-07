@@ -1,0 +1,62 @@
+{% extends 'mainbase.html' %}
+{% load static %}
+
+{% block content %}
+<main class="flex-1 bg-[#f0f4ff] dark:bg-[#0f172a]">
+  <div class="mt-4 px-6">
+    <h2 class="text-2xl font-bold text-gray-900 mb-4">문의사항</h2>
+    <div class="space-y-4">
+      {% for post in posts %}
+      <article class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+        <header class="border-b border-gray-200 pb-4 mb-4">
+          <h3 class="text-xl font-semibold text-gray-900">
+            <a href="{% url 'post_detail' post.id %}" class="hover:underline">{{ post.title }}</a>
+          </h3>
+          <p class="text-sm text-gray-500">
+            {{ post.user.username }} - 
+            <time datetime="{{ post.created|date:'c' }}">{{ post.created|date:"Y년 m월 d일 H:i" }}</time>
+          </p>
+        </header>
+        <p class="text-sm font-semibold">
+          {% if post.get_comments_count == 0 %}
+            <span class="text-red-500">답변 대기 중</span>
+          {% else %}
+            <span class="text-green-500">답변 완료</span>
+          {% endif %}
+        </p>
+      </article>
+      {% empty %}
+        <p>아직 게시물이 없습니다.</p>
+      {% endfor %}
+    </div>
+    <!-- Pagination controls -->
+    <div class="mt-8 flex items-center justify-center">
+      <div class="flex-grow flex justify-center items-center">
+        {% if posts.has_previous %}
+          <a href="?page={{ posts.previous_page_number }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            이전
+          </a>
+        {% endif %}
+        <span class="mx-4">페이지 {{ posts.number }} - {{ posts.paginator.num_pages }}</span>
+        {% if posts.has_next %}
+          <a href="?page={{ posts.next_page_number }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            다음
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <!-- Search form with type selection -->
+    <form action="{% url 'ask' %}" method="get" class="my-4 flex justify-center gap-2">
+      <select name="type" class="p-2 text-sm border rounded">
+        <option value="title" {% if search_type == 'title' %}selected{% endif %}>제목</option>
+        <option value="author" {% if search_type == 'author' %}selected{% endif %}>작성자</option>
+      </select>
+      <input type="text" name="q" placeholder="제목 또는 작성자로 검색" value="{{ query }}" class="p-2 text-sm border rounded">
+      <button type="submit" class="p-2 bg-blue-500 text-white rounded">검색</button>
+    </form>
+  </div>
+</main>
+<button class="fixed bottom-4 right-4 flex items-center justify-center h-12 px-4 rounded-lg bg-[#4f46e5] text-white text-sm font-medium shadow-lg hover:bg-[#3c34c0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4f46e5] z-50" onclick="location.href='/posts/post_add/';">
+  글 작성하기
+</button>
+{% endblock %}

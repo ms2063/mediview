@@ -1,0 +1,28 @@
+<!-- yak/templates/yak/step6.html -->
+
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<main class="mt-20 p-4">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">복용상담계획서 - Step 6</h1>
+    <p class="mt-4 text-gray-600 dark:text-gray-300">의약품 상호작용 확인</p>
+    
+    <!-- 상호작용 정보 -->
+    {% if interactions %}
+    <div class="mt-6 bg-white p-4 rounded-lg shadow">
+        <h2 class="text-lg font-bold text-gray-900">상호작용 정보</h2>
+        {% for interaction in interactions %}
+        <p class="mt-2 text-gray-900"><strong>{{ interaction.제품명 }}</strong> 은/는 아래와 같은 상호작용이 있을 수 있습니다.</p>
+        <p class="ml-4 text-gray-900 break-words">{{ interaction.상호작용 }} </p>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="mt-4 text-gray-600 dark:text-gray-300">해당 상호작용 정보를 찾을 수 없습니다.</p>
+    {% endif %}
+    
+    <div class="mt-6">
+        <a href="{% url 'step5' patient.id %}" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">이전</a>
+        <a href="{% url 'step7' patient.id %}" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">다음</a>
+    </div>
+</main>
+{% endblock %}

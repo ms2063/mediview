@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediView</title>
+    <script src='https://cdn.tailwindcss.com'></script>
+    <style>
+        body { padding-top: 64px; }
+        .user-menu { 
+            position: relative; 
+            text-align: right; 
+            height: 100%; 
+            display: flex;
+            align-items: center;
+        }
+        #userMenuButton { 
+            margin-right: 1rem; 
+        }
+        #userMenuDropdown { 
+            position: absolute; 
+            right: 0; 
+            top: 100%; 
+            text-align: center;
+            width: auto;
+            min-width: 160px; 
+        }
+        #userMenuDropdown a {
+            display: block;
+            padding: 8px 12px;
+            white-space: nowrap;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+        }
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .user-menu {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            #userMenuDropdown {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#f0f4ff] dark:bg-[#0f172a]">
+    <header class="fixed top-0 left-0 right-0 z-10 h-16 w-full bg-[#4f46e5] px-6 dark:bg-[#1e293b]">
+        <div class="flex items-center space-x-4">
+            <img src="/static/logo_white.png" alt="Logo" class="h-12 w-12 text-white">
+            <h1><a class="text-xl font-bold text-white" href='/main/main/'>약끼리</a></h1>
+        </div>
+        <nav class="flex items-center space-x-6">
+            <a class="text-sm font-medium text-white hover:underline" href="/medicine/search/">약끼리 체크</a>
+            <a class="text-sm font-medium text-white hover:underline" href="/search/search/">약물 검색창</a>
+            <a class="text-sm font-medium text-white hover:underline" href="/yak/step1/">복약상담계획서</a>
+            <a class="text-sm font-medium text-white hover:underline" href="/posts/ask/">문의사항</a>
+            <a class="text-sm font-medium text-white hover:underline" href="/faq/">FAQ</a>
+        </nav>
+        <div class="user-menu">
+            <div id="logout-timer" class="text-white mr-4"></div> <!-- 타이머 표시 영역 -->
+            <button id="userMenuButton" class="flex items-center space-x-2 bg-[#4f46e5] text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4f46e5]" aria-haspopup="true" onclick="toggleDropdown()">
+                <span>{{ user.username }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="ml-2 h-4 w-4" viewBox="0 0 24 24">
+                    <path d="M6 9l6 6 6-6" />
+                </svg>
+            </button>
+            <div id="userMenuDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 hidden">
+                <a href="/users/profile/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                <a href="/users/logout/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="flex-grow">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById('userMenuDropdown');
+            var isVisible = dropdown.style.display === 'block';
+            dropdown.style.display = isVisible ? 'none' : 'block';
+        }
+
+        function startLogoutTimer() {
+            const logoutTime = 15 * 60 * 1000;  // 15 minutes in milliseconds
+            const logoutTimerElement = document.getElementById('logout-timer');
+            let remainingTime = logoutTime;
+
+            function updateTimer() {
+                const minutes = Math.floor(remainingTime / (60 * 1000));
+                const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
+                logoutTimerElement.textContent = `자동 로그아웃까지 남은 시간: ${minutes}분 ${seconds}초`;
+                if (remainingTime > 0) {
+                    remainingTime -= 1000;
+                } else {
+                    clearInterval(timerInterval);
+                    window.location.href = '/users/logout/';
+                }
+            }
+
+            updateTimer();  // 초기 타이머 업데이트
+            const timerInterval = setInterval(updateTimer, 1000);  // 매초마다 타이머 업데이트
+        }
+
+        startLogoutTimer();  // 페이지가 로드될 때 타이머 시작
+    </script>
+</body>
+</html>

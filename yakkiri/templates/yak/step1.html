@@ -1,0 +1,67 @@
+<!-- templates/yak/step1.html -->
+
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<main class="mt-20 p-4">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">복용상담계획서 - Step 1</h1>
+    <p class="mt-4 text-gray-600 dark:text-gray-300">환자 및 의료 제공자 정보입력</p>
+    <form method="post" class="mt-6 space-y-8">
+        {% csrf_token %}
+        <fieldset class="space-y-4">
+            <legend class="text-lg font-semibold text-gray-900 dark:text-white">환자 정보</legend>
+            <div class="space-y-2">
+                <label for="id_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">이름</label>
+                <input type="text" name="name" id="id_name" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div class="space-y-2">
+                <label for="id_age" class="block text-sm font-medium text-gray-700 dark:text-gray-300">연령</label>
+                <input type="number" name="age" id="id_age" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div class="space-y-2">
+                <label for="id_gender" class="block text-sm font-medium text-gray-700 dark:text-gray-300">성별</label>
+                <select name="gender" id="id_gender" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label for="id_is_pregnant" class="block text-sm font-medium text-gray-700 dark:text-gray-300">임신 여부</label>
+                <select name="is_pregnant" id="id_is_pregnant" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label for="id_is_breastfeeding" class="block text-sm font-medium text-gray-700 dark:text-gray-300">수유 여부</label>
+                <select name="is_breastfeeding" id="id_is_breastfeeding" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label for="id_disease" class="block text-sm font-medium text-gray-700 dark:text-gray-300">질환</label>
+                <textarea name="disease" id="id_disease" rows="3" placeholder="알레르기와 같은 질환을 기재해주세요" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+            </div>
+            <div class="space-y-2">
+                <label for="id_other_health_info" class="block text-sm font-medium text-gray-700 dark:text-gray-300">기타 건강 정보</label>
+                <textarea name="other_health_info" id="id_other_health_info" rows="3" placeholder="환자의 건강행태(흡연, 음주, 운동)나 기타 건강 정보를 기재해주세요" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+            </div>
+        </fieldset>
+        <fieldset class="space-y-4">
+            <legend class="text-lg font-semibold text-gray-900 dark:text-white">의료 제공자 정보</legend>
+            <div class="space-y-2">
+                <label for="id_provider-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">이름</label>
+                <input type="text" name="provider-name" id="id_provider-name" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div class="space-y-2">
+                <label for="id_provider-organization" class="block text-sm font-medium text-gray-700 dark:text-gray-300">소속</label>
+                <input type="text" name="provider-organization" id="id_provider-organization" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+        </fieldset>        
+        <div class="mt-6">
+            <button type="submit" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">다음</button>
+        </div>
+    </form>
+</main>
+{% endblock %}

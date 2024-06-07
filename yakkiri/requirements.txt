@@ -1,0 +1,12 @@
+numpy
+pandas
+matplotlib
+seaborn
+plotly
+django
+mysqlclient
+pillow
+django-crispy-forms
+python-dotenv
+WeasyPrint
+pdfkit

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>복용상담계획서</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #4f46e5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            table-layout: auto; /* 테이블 레이아웃 자동 설정 */
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            word-wrap: break-word; /* 긴 단어를 줄 바꿈 */
+            word-break: break-all; /* 긴 단어를 줄 바꿈 */
+            white-space: pre-wrap; /* 텍스트가 셀 내에서 줄 바꿈되도록 설정 */
+            overflow: hidden; /* 텍스트가 셀을 벗어나지 않도록 설정 */
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f4ff;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>복용상담계획서</h1>
+        <h2>Step 1: 환자 및 의료 제공자 정보</h2>
+        <p><strong>환자 이름:</strong> {{ patient_name }}</p>
+        <p><strong>연령:</strong> {{ patient.age }}</p>
+        <p><strong>성별:</strong> {{ patient.gender }}</p>
+        <p><strong>임신여부:</strong> {{ patient.is_pregnant }}</p>
+        <p><strong>수유여부:</strong> {{ patient.is_breastfeeding }}</p>
+        <p><strong>질환:</strong> {{ patient.disease }}</p>
+        <p><strong>기타건강정보:</strong> {{ patient.other_health_info }}</p>
+        <p><strong>의료 제공자 이름:</strong> {{ provider_name }}</p>
+        <p><strong>소속:</strong> {{ provider_affiliation }}</p>
+        <p><strong>작성일:</strong> {{ provider_info.created_at }}</p>
+        
+        <h2>Step 2: 복용 현황 파악</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>제품명</th>
+                    <th>복용량</th>
+                    <th>복용 빈도</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for medication in medications %}
+                <tr>
+                    <td>{{ medication.product.제품명 }}</td>
+                    <td>{{ medication.dosage }}</td>
+                    <td>{{ medication.frequency }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Step 4: 조정 필요 중복 약물</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>제품명</th>
+                    <th>금기유형</th>
+                    <th>상세정보</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in contraindications_5_9 %}
+                <tr>
+                    <td>{{ detail.제품명 }}</td>
+                    <td>{{ detail.금기유형 }}</td>
+                    <td>
+                        {% if detail.금기유형 == '투여기간 주의' %}
+                        {% for info in detail.상세정보 %}
+                        상대제품명: {{ info.상대제품명 }}, 상세정보: {{ info.상세정보 }}
+                        {% endfor %}
+                        {% elif detail.금기유형 == '효능군중복 주의' %}
+                        {% for info in detail.상세정보 %}
+                        효능군중복: {{ info.효능군중복_효능군 }}, Group: {{ info.효능군중복_Group }}
+                        {% endfor %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Step 5: 약물 부작용 발생 확인</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>제품명</th>
+                    <th>부작용</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for effect in side_effects %}
+                <tr>
+                    <td>{{ effect.제품명 }}</td>
+                    <td>{{ effect.부작용 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Step 6: 의약품 상호작용 확인</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>제품명</th>
+                    <th>상호작용</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for interaction in interactions %}
+                <tr>
+                    <td>{{ interaction.제품명 }}</td>
+                    <td>{{ interaction.상호작용 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Step 7: 의약품 복용법 확인</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>제품명</th>
+                    <th>복용법</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for method in usage_methods %}
+                <tr>
+                    <td>{{ method.제품명 }}</td>
+                    <td>{{ method.사용법 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Step 8: 의약품 보관법 확인</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>제품명</th>
+                    <th>보관법</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for storage in storage_methods %}
+                <tr>
+                    <td>{{ storage.제품명 }}</td>
+                    <td>{{ storage.보관법 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Step 10: 환자별 주의약물</h2>
+        {% if warning_details %}
+        <table>
+            <thead>
+                <tr>
+                    <th class="fixed-width">제품명</th>
+                    <th class="fixed-width">금기유형</th>
+                    <th class="fixed-width">상세정보</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in warning_details %}
+                <tr>
+                    <td class="fixed-width">{{ detail.제품명 }}</td>
+                    <td class="fixed-width">{{ detail.금기유형 }}</td>
+                    <td class="fixed-width">
+                        {% if '노인주의' in detail.금기유형 %}
+                        노인주의 약품상세정보: {{ detail.노인주의_약품상세정보 }}
+                        {% elif '임부 주의' in detail.금기유형 %}
+                        임부금기 등급: {{ detail.임부금기_금기등급 }}, 임부금기 상세정보: {{ detail.임부금기_상세정보 }}
+                        {% elif '연령별 주의' in detail.금기유형 %}
+                        특정연령: {{ detail.특정연령 }}{{ detail.특정연령단위 }}, 연령처리조건: {{ detail.연령처리조건 }}, 상세정보: {{ detail.상세정보 }}
+                        {% else %}
+                        상세정보 없음
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>해당 주의약물 정보를 찾을 수 없습니다.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

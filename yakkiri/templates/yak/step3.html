@@ -1,0 +1,15 @@
+<!-- yak/templates/yak/step3.html -->
+
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<main class="mt-20 p-4">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">복용상담계획서 - Step 3</h1>
+    <p class="mt-4 text-gray-600 dark:text-gray-300">필수 약제 복약 이행도</p>
+    
+    <div class="mt-6">
+        <a href="{% url 'step2' patient.id %}" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">이전</a>
+        <a href="{% url 'step4' patient.id %}" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">다음</a>
+    </div>
+</main>
+{% endblock %}

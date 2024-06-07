@@ -1,0 +1,78 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<main class="mt-20 p-4">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">복용상담계획서 - Step 2</h1>
+    <p class="mt-4 text-gray-600 dark:text-gray-300">복용 현황 파악</p>
+    
+    <!-- 제품 검색 폼 -->
+    <form method="post" class="mt-6 space-y-4">
+        {% csrf_token %}
+        {{ search_form.as_p }}
+        <button type="submit" name="search" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">Search</button>
+    </form>
+    
+    <!-- 검색 결과 -->
+    {% if search_results %}
+    <div class="mt-6">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white">검색 결과</h2>
+        <table class="min-w-full divide-y divide-gray-200 mt-4">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">제품명</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">업체명</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">추가</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for product in search_results %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ product.제품명 }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ product.업체코드.업체명 }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <form method="post" class="inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_code" value="{{ product.제품코드 }}">
+                            <input type="text" name="dosage" placeholder="복용량 (예: 500mg)" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <input type="text" name="frequency" placeholder="복용 빈도 (예: 하루 2번)" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2">
+                            <button type="submit" name="add" class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-700 mt-2">+</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    <!-- 선택한 약품 테이블 -->
+    {% if medications %}
+    <div class="mt-6">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white">선택한 약품</h2>
+        <table class="min-w-full divide-y divide-gray-200 mt-4">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">제품명</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">복용량</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">복용 빈도</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for medication in medications %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ medication.product.제품명 }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ medication.dosage }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ medication.frequency }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    <div class="mt-6">
+        <a href="{% url 'step1' %}" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">이전</a>
+        <a href="{% url 'step3' patient.id %}" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">다음</a>
+    </div>
+</main>
+{% endblock %}

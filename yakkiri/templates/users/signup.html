@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id='signup' class="flex h-screen items-center justify-center">
+    <div class="flex h-screen w-full items-center justify-center bg-[#f0f4ff] dark:bg-[#0f172a]">
+    <form method='POST' class="w-full max-w-md p-8 space-y-6 rounded-lg shadow-lg bg-white" autocomplete='off'>
+        <h1 class="text-center text-2xl font-bold text-[#4f46e5]">회원가입</h1>
+        {% csrf_token %}
+        <div class="space-y-4">
+            {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-[#4f46e5]">
+                    {% if field.name == 'username' %}
+                        사용자 이름(아이디)
+                    {% elif field.name == 'password1' %}
+                        비밀번호(8자리 이상)
+                    {% elif field.name == 'password2' %}
+                        비밀번호 확인
+                    {% elif field.name == 'first_name' %}
+                        이름
+                    {% elif field.name == 'last_name' %}
+                        성
+                    {% elif field.name == 'email' %}
+                        이메일
+                    {% elif field.name == 'status' %}
+                        신분
+                    {% endif %}
+                </label>
+                {% if field.name == 'status' %}
+                    <!-- 드롭다운 메뉴를 사용하여 '신분' 선택 -->
+                    <select name="{{ field.name }}" id="{{ field.id_for_label }}" class="w-full border border-[#4f46e5] rounded-md px-3 py-2 focus:outline-none focus:ring-[#4f46e5] focus:border-[#4f46e5]">
+                        {% for choice in field.field.choices %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <!-- 텍스트 및 비밀번호 입력 필드 -->
+                    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}" class="w-full border border-[#4f46e5] rounded-md px-3 py-2 focus:outline-none focus:ring-[#4f46e5] focus:border-[#4f46e5]" placeholder="{{ field.label }}">
+                {% endif %}
+                {% if field.errors %}
+                <div class="text-red-500 text-sm">
+                    {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+        </div>
+        <button type='submit' class='w-full inline-flex items-center justify-center h-10 rounded-md bg-[#4f46e5] px-4 py-2 font-medium text-white transition-colors hover:bg-[#4338ca] focus:outline-none focus:ring-1 focus:ring-[#4f46e5]/50'>회원가입</button>
+        <div class="text-center text-sm text-[#6b7280]">
+            이미 계정이 있으신가요?
+            <a href="/users/login/" class="font-medium text-[#4f46e5] hover:underline">로그인 페이지로 이동</a>
+        </div>
+    </form>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4">제품 검색</h1>
+    <form method="GET" action="{% url 'search_products' %}" class="mb-4">
+        <div class="flex items-center space-x-4">
+            <input type="text" name="q" placeholder="약물 이름을 입력하세요." value="{{ query|default:'' }}" class="flex-1 p-2 border border-gray-300 rounded">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">검색</button>
+        </div>
+    </form>
+    {% if query %}
+        <h2 class="text-xl font-semibold mb-4">"{{ query }}"에 대한 검색결과</h2>
+        {% if results %}
+            <ul class="space-y-4">
+                {% for product, product_details, usage_info in results %}
+                    <li class="bg-white p-4 rounded shadow">
+                        <div>
+                            <strong>제품코드:</strong> {{ product.제품코드 }}<br>
+                            <strong>제품명:</strong> {{ product.제품명 }}<br>
+                            <strong>품목기준코드:</strong> {{ product.품목기준코드 }}<br>
+                            <strong>업체명:</strong> {{ product.업체코드.업체명 }}<br>
+                            <strong>주성분코드:</strong> {{ product.주성분코드 }}
+                        </div>
+                        {% if product_details %}
+                            <div class="mt-4">
+                                <button class="expander w-full bg-gray-100 p-2 text-left rounded" onclick="toggleExpander('details-{{ product.제품코드 }}')">
+                                    제품 상세정보 보기
+                                </button>
+                                <div id="details-{{ product.제품코드 }}" class="expander-content mt-2 p-2 border border-gray-300 rounded hidden">
+                                    <strong>ATC코드:</strong> {{ product_details.ATC코드 }}<br>
+                                    <strong>규격:</strong> {{ product_details.규격 }}<br>
+                                    <strong>단위:</strong> {{ product_details.단위 }}<br>
+                                    <strong>상한금액:</strong> {{ product_details.상한금액 }}<br>
+                                    <strong>전일:</strong> {{ product_details.전일 }}<br>
+                                    <strong>급여여부:</strong> {{ product_details.급여여부 }}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="mt-4 text-red-500">제품 상세정보를 제공하지 않습니다.</div>
+                        {% endif %}
+                        {% if usage_info %}
+                            <div class="mt-4">
+                                <button class="expander w-full bg-gray-100 p-2 text-left rounded" onclick="toggleExpander('usage-{{ product.제품코드 }}')">
+                                    품목 사용정보 보기
+                                </button>
+                                <div id="usage-{{ product.제품코드 }}" class="expander-content mt-2 p-2 border border-gray-300 rounded hidden">
+                                    <strong>효능:</strong> {{ usage_info.효능 }}<br>
+                                    <strong>사용법:</strong> {{ usage_info.사용법 }}<br>
+                                    <strong>주의사항경고:</strong> {{ usage_info.주의사항경고 }}<br>
+                                    <strong>주의사항:</strong> {{ usage_info.주의사항 }}<br>
+                                    <strong>상호작용:</strong> {{ usage_info.상호작용 }}<br>
+                                    <strong>부작용:</strong> {{ usage_info.부작용 }}<br>
+                                    <strong>보관법:</strong> {{ usage_info.보관법 }}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="mt-4 text-red-500">사용정보를 제공하지 않습니다.</div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-red-500">검색에 맞는 결과가 존재하지 않습니다.</p>
+        {% endif %}
+    {% endif %}
+</div>
+<script>
+    function toggleExpander(contentId) {
+        var content = document.getElementById(contentId);
+        content.classList.toggle('hidden');
+    }
+</script>
+{% endblock %}

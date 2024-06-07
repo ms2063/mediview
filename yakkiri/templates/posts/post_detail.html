@@ -1,0 +1,42 @@
+{% extends 'mainbase.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .full-width-container {
+    width: 100%; 
+    max-width: none; 
+  }
+</style>
+
+<div class="flex h-screen w-full items-center justify-center bg-[#f0f4ff] dark:bg-[#0f172a]">
+    <div class="full-width-container mx-auto bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+      <!-- 내용 -->
+      <header class="border-b border-gray-300 pb-4 mb-6">
+        <h1 class="text-3xl font-bold text-gray-900">{{ post.title }}</h1>
+        <p class="text-sm text-gray-500">
+            작성자: <span class="text-gray-700 font-medium">{{ post.user.username }}</span> -
+            <time datetime="{{ post.created|date:'c' }}">{{ post.created|date:"Y년 m월 d일 H:i" }}</time>
+        </p>
+    </header>
+    <section>
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">내용</h2>
+        <p class="text-gray-700 whitespace-pre-line">{{ post.content }}</p>
+    </section>
+    <section class="mt-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">댓글</h2>
+        <div class="space-y-4">
+            {% for comment in comments %}
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <p class="text-gray-800">{{ comment.content }}</p>
+                <p class="text-sm text-gray-600">작성자: {{ comment.user.username }} - {{ comment.created|date:"Y년 m월 d일 H:i" }}</p>
+            </div>
+            {% empty %}
+            <p class="text-gray-600">아직 댓글이 존재하지 않습니다.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>   
+    </div>
+</div>
+{% endblock %}

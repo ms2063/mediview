@@ -1,0 +1,249 @@
+{% extends 'mainbase.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4">제품 검색</h1>
+    <form method="get" action="{% url 'search' %}" class="mb-8">
+        <div class="flex items-center space-x-4">
+            <select name="search_by" class="rounded-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="제품명" {% if search_by == '제품명' %}selected{% endif %}>제품명</option>
+                <option value="주성분코드" {% if search_by == '주성분코드' %}selected{% endif %}>주성분코드</option>
+                <option value="업체명" {% if search_by == '업체명' %}selected{% endif %}>업체명</option>
+            </select>
+            <input type="text" name="q" placeholder="검색어를 입력해주세요" value="{{ query|default_if_none:'' }}" class="flex-grow rounded-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <button type="submit" class="ml-4 px-4 py-2 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                검색
+            </button>
+        </div>
+    </form>
+
+    <h2 class="text-xl font-semibold mb-4">검색 결과</h2>
+    <ul class="space-y-4">
+        {% for 제품 in results %}
+            <li class="p-4 bg-white rounded-lg shadow-md flex justify-between items-center">
+                <div>
+                    <div class="text-lg font-medium">제품명: {{ 제품.제품명 }}</div>
+                    <div>제품코드: {{ 제품.제품코드 }}</div>
+                    <div>주성분코드: {{ 제품.주성분코드 }}</div>
+                    <div>업체명: {{ 제품.업체코드.업체명|default:"업체 정보 없음" }}</div>
+                </div>
+                <button onclick="addProduct('{{ 제품.제품명 }}', '{{ 제품.제품코드 }}', '{{ 제품.주성분코드 }}', '{{ 제품.업체코드.업체명|default:"업체 정보 없음" }}')" class="ml-4 p-2 bg-green-500 text-white rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                </button>
+            </li>
+        {% empty %}
+            <li class="p-4 bg-white rounded-lg shadow-md">검색 결과가 없습니다.</li>
+        {% endfor %}
+    </ul>
+
+    <h2 class="text-xl font-semibold mt-8 mb-4">선택된 약품</h2>
+    <table id="selectedProductsTable" class="min-w-full bg-white rounded-lg shadow-md">
+        <thead>
+            <tr>
+                <th class="px-4 py-2 border-b-2">제품명</th>
+                <th class="px-4 py-2 border-b-2">제품코드</th>
+                <th class="px-4 py-2 border-b-2">주성분코드</th>
+                <th class="px-4 py-2 border-b-2">업체명</th>
+                <th class="px-4 py-2 border-b-2">작업</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <h2 class="text-xl font-semibold mt-8 mb-4">금기 정보</h2>
+    <div class="mb-4 grid grid-cols-5 gap-2">
+        {% for 금기유형 in 금기유형_list %}
+            <button id="filter-{{ 금기유형 }}" class="filter-button bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500" onclick="filterContraindications('{{ 금기유형 }}')">{{ 금기유형 }} (<span id="count-{{ 금기유형 }}">0</span>)</button>
+        {% endfor %}
+    </div>
+    <table id="contraindicationsTable" class="min-w-full bg-white rounded-lg shadow-md hidden">
+        <thead>
+            <tr>
+                <th class="px-4 py-2 border-b-2">제품명</th>
+                <th class="px-4 py-2 border-b-2">금기코드</th>
+                <th class="px-4 py-2 border-b-2">금기유형</th>
+                <th class="px-4 py-2 border-b-2">상세정보</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSelectedProducts();
+    });
+
+    function addProduct(name, code, ingredientCode, company) {
+        const selectedProducts = getSelectedProducts();
+        const existingProduct = selectedProducts.find(product => product.code === code);
+        if (!existingProduct) {
+            selectedProducts.unshift({ name, code, ingredientCode, company }); // Add new product to the beginning
+            saveSelectedProducts(selectedProducts);
+            renderSelectedProducts(); // Re-render the products
+            fetchContraindications(code, name);
+        } else {
+            alert('이미 선택된 제품입니다.');
+        }
+    }
+
+    function removeProduct(index) {
+        const selectedProducts = getSelectedProducts();
+        const productCode = selectedProducts[index].code;
+        selectedProducts.splice(index, 1);
+        saveSelectedProducts(selectedProducts);
+        renderSelectedProducts(); // Re-render the products
+        removeContraindications(productCode);
+    }
+
+    function removeContraindications(productCode) {
+        const table = document.getElementById('contraindicationsTable').getElementsByTagName('tbody')[0];
+        const rows = table.getElementsByTagName('tr');
+        for (let i = rows.length - 1; i >= 0; i--) {
+            const cells = rows[i].getElementsByTagName('td');
+            if (cells[0].dataset.code === productCode) {
+                table.deleteRow(i);
+            }
+        }
+        if (table.getElementsByTagName('tr').length === 0) {
+            document.getElementById('contraindicationsTable').classList.add('hidden');
+        }
+        updateContraindicationsCount();
+    }
+
+    function getSelectedProducts() {
+        return JSON.parse(localStorage.getItem('selectedProducts')) || [];
+    }
+
+    function saveSelectedProducts(products) {
+        localStorage.setItem('selectedProducts', JSON.stringify(products));
+    }
+
+    function renderSelectedProducts() {
+        const table = document.getElementById('selectedProductsTable').getElementsByTagName('tbody')[0];
+        table.innerHTML = '';
+        const selectedProducts = getSelectedProducts();
+        selectedProducts.forEach((product, index) => {
+            const newRow = table.insertRow(); // Insert new row at the beginning
+            const nameCell = newRow.insertCell(0);
+            const codeCell = newRow.insertCell(1);
+            const ingredientCodeCell = newRow.insertCell(2);
+            const companyCell = newRow.insertCell(3);
+            const actionCell = newRow.insertCell(4);
+
+            nameCell.textContent = product.name;
+            codeCell.textContent = product.code;
+            ingredientCodeCell.textContent = product.ingredientCode;
+            companyCell.textContent = product.company;
+
+            nameCell.classList.add('px-4', 'py-2', 'border-b');
+            codeCell.classList.add('px-4', 'py-2', 'border-b');
+            ingredientCodeCell.classList.add('px-4', 'py-2', 'border-b');
+            companyCell.classList.add('px-4', 'py-2', 'border-b');
+            actionCell.classList.add('px-4', 'py-2', 'border-b', 'text-center');
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 hover:text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
+            deleteButton.classList.add('focus:outline-none');
+            deleteButton.onclick = function() {
+                removeProduct(index);
+            };
+            actionCell.appendChild(deleteButton);
+        });
+    }
+
+    function loadSelectedProducts() {
+        renderSelectedProducts();
+        const selectedProducts = getSelectedProducts();
+        selectedProducts.forEach(product => {
+            fetchContraindications(product.code, product.name);
+        });
+    }
+
+    function fetchContraindications(code, name) {
+        const selectedProducts = getSelectedProducts().map(product => product.code);
+        const url = `/medicine/get_contraindications/${code}/?selected_products=${JSON.stringify(selectedProducts)}`;
+        
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const table = document.getElementById('contraindicationsTable').getElementsByTagName('tbody')[0];
+                if (data.length > 0) {
+                    document.getElementById('contraindicationsTable').classList.remove('hidden');
+                    data.forEach(item => {
+                        const newRow = table.insertRow();
+                        const nameCell = newRow.insertCell(0);
+                        const contraindicationCodeCell = newRow.insertCell(1);
+                        const contraindicationTypeCell = newRow.insertCell(2);
+                        const detailInfoCell = newRow.insertCell(3);
+
+                        nameCell.textContent = item.제품명;
+                        contraindicationCodeCell.textContent = item.금기코드;
+                        contraindicationTypeCell.textContent = item.금기유형;
+                        detailInfoCell.innerHTML = formatDetailInfo(item.상세정보);
+
+                        nameCell.classList.add('px-4', 'py-2', 'border-b');
+                        nameCell.dataset.code = code;
+                        contraindicationCodeCell.classList.add('px-4', 'py-2', 'border-b');
+                        contraindicationTypeCell.classList.add('px-4', 'py-2', 'border-b');
+                        detailInfoCell.classList.add('px-4', 'py-2', 'border-b');
+                    });
+                    updateContraindicationsCount();
+                }
+            });
+    }
+
+    function formatDetailInfo(detailInfo) {
+        if (Array.isArray(detailInfo) && detailInfo.length > 0) {
+            return detailInfo.map(info => {
+                return Object.entries(info).map(([key, value]) => `<strong>${key}:</strong> ${value}`).join('<br>');
+            }).join('<br><br>');
+        }
+        return '상세정보 없음';
+    }
+
+    function updateContraindicationsCount() {
+        const rows = document.querySelectorAll('#contraindicationsTable tbody tr');
+        const counts = {};
+
+        rows.forEach(row => {
+            const type = row.cells[2].textContent.trim();
+            if (!counts[type]) {
+                counts[type] = 0;
+            }
+            counts[type]++;
+        });
+
+        document.querySelectorAll('[id^="filter-"]').forEach(button => {
+            const type = button.id.replace('filter-', '');
+            const countSpan = document.getElementById(`count-${type}`);
+            countSpan.textContent = counts[type] || 0;
+        });
+    }
+
+    function filterContraindications(type) {
+        const rows = document.querySelectorAll('#contraindicationsTable tbody tr');
+        rows.forEach(row => {
+            if (type === '전체' || row.cells[2].textContent === type) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.classList.remove('bg-indigo-600', 'text-white');
+            button.classList.add('bg-gray-200', 'text-gray-800');
+        });
+
+        const activeButton = document.getElementById(`filter-${type}`);
+        activeButton.classList.remove('bg-gray-200', 'text-gray-800');
+        activeButton.classList.add('bg-indigo-600', 'text-white');
+    }
+</script>
+{% endblock %}

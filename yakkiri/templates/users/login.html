@@ -1,0 +1,55 @@
+<script src='https://cdn.tailwindcss.com'></script>
+
+<div class="flex h-screen w-full items-center justify-center bg-[#f0f4ff] dark:bg-[#0f172a]">
+  <div class="mx-4 w-full max-w-md space-y-6 rounded-lg bg-white p-8 shadow-lg dark:bg-[#1e293b]">
+    <div class="flex flex-col items-center space-y-2">
+      <img src="/static/logo_blue.png" alt="Logo" class="h-20 w-20">
+    <h2 class="text-2xl font-bold text-[#4f46e5]">약끼리</h2>
+    </div>
+    <form class="space-y-4 w-full" method="post" autocomplete='off'>
+      {% csrf_token %}
+      <!-- Display non-field specific errors -->
+      {% if form.non_field_errors %}
+        <div class="text-red-500 text-sm">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="space-y-4 w-full">
+        <label for="username" class="block text-sm font-medium text-[#4f46e5]">사용자명</label>
+        <input id="username" name="username" type="text" class="w-full border border-[#4f46e5] rounded-md px-3 py-2 focus:outline-none focus:ring-[#4f46e5] focus:border-[#4f46e5] dark:bg-[#334155] dark:text-[#f8fafc] dark:border-[#475569]" placeholder="Username">
+        <!-- Display field specific errors for 'username' -->
+        {% if form.username.errors %}
+          <div class="text-red-500 text-sm">
+            {% for error in form.username.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="space-y-4 w-full">
+        <label for="password" class="block text-sm font-medium text-[#4f46e5]">비밀번호</label>
+        <input id="password" name="password" type="password" class="w-full border border-[#4f46e5] rounded-md px-3 py-2 focus:outline-none focus:ring-[#4f46e5] focus:border-[#4f46e5] dark:bg-[#334155] dark:text-[#f8fafc] dark:border-[#475569]" placeholder="Password">
+        <!-- Display field specific errors for 'password' -->
+        {% if form.password.errors %}
+          <div class="text-red-500 text-sm">
+            {% for error in form.password.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      <button class="w-full inline-flex items-center justify-center h-10 rounded-md bg-[#4f46e5] px-4 py-2 font-medium text-white transition-colors hover:bg-[#4338ca] focus:outline-none focus:ring-1 focus:ring-[#4f46e5]/50 dark:bg-[#4f46e5] dark:hover:bg-[#4338ca] dark:focus:ring-[#4f46e5]/50">
+        로그인
+      </button>
+      <div class="text-center text-sm text-[#6b7280] dark:text-[#94a3b8]">
+        회원이 아니신가요?
+        <a class="font-medium text-[#4f46e5] hover:underline dark:text-[#4f46e5]" href="/users/signup/">
+          회원가입
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+</div>

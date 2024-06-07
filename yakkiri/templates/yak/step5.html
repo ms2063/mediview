@@ -1,0 +1,28 @@
+<!-- yak/templates/yak/step5.html -->
+
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<main class="mt-20 p-4">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">복용상담계획서 - Step 5</h1>
+    <p class="mt-4 text-gray-600 dark:text-gray-300">약물 부작용 발생 확인</p>
+    
+    <!-- 부작용 정보 -->
+    {% if side_effects %}
+    <div class="mt-6 bg-white p-4 rounded-lg shadow">
+        <h2 class="text-lg font-bold text-gray-900">부작용 정보</h2>
+        {% for side_effect in side_effects %}
+        <p class="mt-2 text-gray-900"><strong>{{ side_effect.제품명 }}</strong> 은/는 아래와 같은 부작용이 있을 수 있습니다.</p>
+        <p class="ml-4 text-gray-900 break-words">{{ side_effect.부작용 }} </p>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="mt-4 text-gray-600 dark:text-gray-300">해당 부작용 정보를 찾을 수 없습니다.</p>
+    {% endif %}
+    
+    <div class="mt-6">
+        <a href="{% url 'step4' patient.id %}" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">이전</a>
+        <a href="{% url 'step6' patient.id %}" class="bg-[#4f46e5] text-white px-4 py-2 rounded-full hover:bg-[#3730a3]">다음</a>
+    </div>
+</main>
+{% endblock %}
