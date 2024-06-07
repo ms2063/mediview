@@ -16,35 +16,35 @@
 <h1 align="left">
   팀원 소개 및 역할
 </h1>
-<p>
-• <a target="_blank" href="https://github.com/ghkstod">나한울 팀장</a> - 웹 개발
-<br>
-• <a target="_blank" href="https://github.com/suhyeon0325">김수현 팀원</a> - 기획 및 데이터 분석
-<br>
-• <a target="_blank" href="https://github.com/Kongalmengi">송민 팀원</a> - 웹 개발
-<br>
-• <a target="_blank" href="https://github.com/Kongalmengi">송준호 팀원</a> - 데이터 분석
-<br>
-• <a target="_blank" href="">양인선 팀원</a> - 데이터 분석
-<br>
-• <a target="_blank" href="https://github.com/Ju0s">정주영 팀원</a> - 기획 및 데이터 분석
-<br>
-• <a target="_blank" href="https://github.com/roklp">한대희 팀원</a> - 데이터 분석
-</p>
+
+- [나한울 팀장](https://github.com/ghkstod)<br>
+웹 개발
+- [김수현 팀원](https://github.com/suhyeon0325)<br>
+기획 및 데이터 분석
+- [송민 팀원](https://github.com/ms2063)<br>
+웹 개발
+- [송준호 팀원](https://github.com/Kongalmengi)<br>
+데이터 분석
+- [양인선 팀원](https://github.com/)<br>
+데이터 분석
+- [정주영 팀원](https://github.com/Ju0s)<br>
+기획 및 데이터 분석
+- [한대희 팀원](https://github.com/roklp)<br>
+데이터 분석
 
 <h1 align="left">
   주요 개발환경
 </h1>
-  • 프로그래밍 언어 : Python
-  <br>
-  • 웹 프레임워크 : Django
-  <br>
-  • IDE : Visual Studio, Jupyter lab
+
+- 프로그래밍 언어 : Python<br>
+- 웹 프레임워크 : Django<br>
+- IDE : Visual Studio, Jupyter lab
 
 <h2 align="left">
   주요 라이브러리
 </h2>
-  • <a target="_blank" href="yakkiri/requirements.txt">requirements.txt</a> 파일 참조
+
+- [requirements.txt](yakkiri/requirements.txt) 파일 참조
 
 ## 테스트 준비 및 방법
 
@@ -142,26 +142,23 @@ python manage.py runserver
 
 ![https://github.com/ms2063/convenience_insights/assets/157222473/29095fd0-cc0d-4ba9-8173-5912ebc89a54](https://raw.githubusercontent.com/ms2063/mediview/main/img/server.png)
 
-# 데모페이지
-- Streamlit에서 구현한 Demo는 다음과 같습니다.
-  + https://_______.streamlit.app/
-
 <h1 align="left">
   활용 데이터
 </h1>
 
-• 의약품 DUR 데이터 (건강보험심사평가원 제공)
-<p>활용 정보 : 노인주의, 임부 금기, 병용 금기 등<br>
-복용 상담 계획서 작성 및 약품 체크에 활용</p>
+- 의약품 DUR 데이터 (건강보험심사평가원 제공)<br>
+활용 정보 : 노인주의, 임부 금기, 병용 금기 등<br>
+복용 상담 계획서 작성 및 약품 체크에 활용
 
-• e약은요 데이터 (식품의약안전처 제공)
-<p>활용 정보 : 효능, 주의 사항, 상호 작용, 부작용 등<br>
-복용 상담 계획서 작성 및 약물 검색창에 활용</p>
+- e약은요 데이터 (식품의약안전처 제공)<br>
+활용 정보 : 효능, 주의 사항, 상호 작용, 부작용 등<br>
+복용 상담 계획서 작성 및 약물 검색창에 활용
 
 <h1 align="left">
   주요 기능
 </h1>
-주요 기능은 다음과 같습니다.<br>
+주요 기능은 다음과 같습니다.
+
 
 - 약끼리 체크
 <p>
@@ -197,12 +194,10 @@ python manage.py runserver
 <h1 align="left">
   발표자료 PDF
 </h1>
-<p>
-• 발표 자료는 해당 링크를 통해 확인 가능합니다:
-</p>
-<p>
-<a target="_blank" href="pdf">한국어 PDF</a>
-</p>
+ 
+- 발표 자료는 해당 링크를 통해 확인 가능합니다:<br>
+[한국어 PDF](pdf)
+
 
 
 # 배포
